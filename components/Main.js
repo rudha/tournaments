@@ -1,18 +1,34 @@
 import React from 'react';
-import {StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, TouchableOpacity, AsyncStorage} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 
+import NewTournament from './NewTournament';
 import Tournament from './Tournament';
 
 class Main extends React.Component {
+	state = {
+		tournamentArray: [],
+	}
 	newTournamentHandler = () => {
 		this.props.navigation.navigate('Tournament')
 	}
-
+	componentDidMount () {
+		AsyncStorage.getItem(/*this.state.name*/"key", (error, result) => {
+			console.log("componentWillMount");
+			console.log(result);
+			console.log(error);
+			this.state.tournamentArray.push({result});
+		});
+	};
 	render() {
+		let tournament = this.state.tournamentArray.map((value, key) => {
+    		return <Tournament key={key} value={value}/>
+        });
 		return (
 			<View style={styles.container}>
-				<ScrollView style={styles.content}></ScrollView>
+				<ScrollView style={styles.content}>
+					{tournament}
+				</ScrollView>
 				<TouchableOpacity style={styles.addButton} onPress={this.newTournamentHandler}>
 					<Text style={styles.addButtonText}>+</Text>
 				</TouchableOpacity>
@@ -24,7 +40,7 @@ class Main extends React.Component {
 export default RootStack = StackNavigator(
 	{
 		Home: {screen: Main},
-		Tournament: {screen: Tournament},
+		Tournament: {screen: NewTournament},
 	},
 	{
 		initialRouteName: 'Home',

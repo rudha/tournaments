@@ -1,10 +1,10 @@
 import React from 'react';
-import {Text, View, TextInput, StyleSheet, Button} from 'react-native';
+import {View, TextInput, StyleSheet} from 'react-native';
 
 export default players = (props) => {
 	return (
 		<View>
-			<TextInput onChangeText={() => props.player()} value={props.value} />
+			<TextInput onChangeText={props.onInput} value={props.value} placeholder="Player" />
 		</View>
 	);
 }
