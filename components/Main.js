@@ -1,37 +1,45 @@
 import React from 'react';
-import {StyleSheet, Text, View, ScrollView, TouchableOpacity, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Image, AsyncStorage} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 
 import NewTournament from './NewTournament';
-import Tournament from './Tournament';
 
 class Main extends React.Component {
 	state = {
 		tournamentArray: [],
-	}
-	newTournamentHandler = () => {
-		this.props.navigation.navigate('Tournament')
+		tournament: {
+			name: "",
+			player1: "",
+			player2: "",
+			player3: "",
+			player4: "",
+		},
 	}
 	componentDidMount () {
-		AsyncStorage.getItem(/*this.state.name*/"key", (error, result) => {
-			console.log("componentWillMount");
-			console.log(result);
-			console.log(error);
-			this.state.tournamentArray.push({result});
-		});
-	};
+		AsyncStorage.getItem('@tournament')
+			.then(tournament => {
+				console.log("AsyncStorage inside Main", JSON.parse(tournament));
+				this.setState({tournament: JSON.parse(tournament)});
+			});
+	}
+	newTournamentHandler = () => {
+		this.props.navigation.navigate('NewTournament')
+	}
 	render() {
-		let tournament = this.state.tournamentArray.map((value, key) => {
-    		return <Tournament key={key} value={value}/>
-        });
+		let tournament = "tournament";
+		if (this.state.tournament) {
+			tournament = (
+				<Text>{this.state.tournament.name}</Text>
+			);
+		}
 		return (
 			<View style={styles.container}>
-				<ScrollView style={styles.content}>
-					{tournament}
-				</ScrollView>
-				<TouchableOpacity style={styles.addButton} onPress={this.newTournamentHandler}>
-					<Text style={styles.addButtonText}>+</Text>
-				</TouchableOpacity>
+			<ScrollView style={styles.content}>
+				{tournament}
+			</ScrollView>
+			<TouchableOpacity style={styles.addButton} onPress={this.newTournamentHandler}>
+				<Text style={styles.addButtonText}>+</Text>
+			</TouchableOpacity>
 			</View>
 		);
 	}
@@ -40,7 +48,7 @@ class Main extends React.Component {
 export default RootStack = StackNavigator(
 	{
 		Home: {screen: Main},
-		Tournament: {screen: NewTournament},
+		NewTournament: {screen: NewTournament},
 	},
 	{
 		initialRouteName: 'Home',
@@ -65,21 +73,21 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginBottom: 100
 	},
-    addButton: {
-        position: 'absolute',
-        zIndex: 11,
-        right: 20,
-        bottom: 20,
-        backgroundColor: '#E91E63',
-        width: 70,
-        height: 70,
-        borderRadius: 35,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 8
-    },
-    addButtonText: {
-        color: '#fff',
-        fontSize: 24
-    }
+	addButton: {
+		position: 'absolute',
+		zIndex: 11,
+		right: 20,
+		bottom: 20,
+		backgroundColor: '#E91E63',
+		width: 70,
+		height: 70,
+		borderRadius: 35,
+		alignItems: 'center',
+		justifyContent: 'center',
+		elevation: 8
+	},
+	addButtonText: {
+		color: '#fff',
+		fontSize: 24,
+	},
 });

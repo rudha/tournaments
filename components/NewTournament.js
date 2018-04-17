@@ -2,25 +2,7 @@ import React from 'react';
 import {Text, View, TextInput, StyleSheet, Button, AsyncStorage} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 
-import Player from './Player';
-
 export default class NewTournament extends React.Component {
-	onContinueHandler = () => {
-		console.log("tournament saved");
-		let tournament = {
-			name: this.state.name,
-			player1: this.state.player1,
-			player2: this.state.player2,
-			player3: this.state.player3,
-			player4: this.state.player4,
-		};
-		AsyncStorage.setItem(/*this.state.name*/"key" , JSON.stringify(tournament), () => {
-			AsyncStorage.getItem(/*this.state.name*/"key", (error, result) => {
-				console.log(result);
-			});
-		});
-		this.props.navigation.goBack();
-	}
 	state = {
 		name: "",
 		player1: "",
@@ -28,9 +10,22 @@ export default class NewTournament extends React.Component {
 		player3: "",
 		player4: "",
 	}
-	// componentWillUpdate(nextProps, nextState) {
-	// 	console.log("[componentWillUpdate on Tournament]", nextProps, nextState);
-	// }
+	onContinueHandler = () => {
+		console.log("tournament saved");
+		let tournament = [{
+			name: this.state.name,
+			player1: this.state.player1,
+			player2: this.state.player2,
+			player3: this.state.player3,
+			player4: this.state.player4,
+		}];
+		// console.log(tournament);
+		AsyncStorage.setItem('@tournament', JSON.stringify(tournament))
+			.then(tournament => {
+				console.log("NewTournament", tournament);
+			});
+		this.props.navigation.goBack();
+	}
 	static navigationOptions = {
 		title: 'New Tournament',
 		headerTitleStyle: {
@@ -45,10 +40,10 @@ export default class NewTournament extends React.Component {
 					value={this.state.name}
 					placeholder="Tournament Name"
 				/>
-				<Player onInput= {(player1) => this.setState({player1})} value={this.state.player1} />
-				<Player onInput= {(player2) => this.setState({player2})} value={this.state.player2} />
-				<Player onInput= {(player3) => this.setState({player3})} value={this.state.player3} />
-				<Player onInput= {(player4) => this.setState({player4})} value={this.state.player4} />
+				<TextInput onChangeText={(player1) => this.setState({player1})} value={this.state.player1} placeholder="Player" />
+				<TextInput onChangeText={(player2) => this.setState({player2})} value={this.state.player2} placeholder="Player" />
+				<TextInput onChangeText={(player3) => this.setState({player3})} value={this.state.player3} placeholder="Player" />
+				<TextInput onChangeText={(player4) => this.setState({player4})} value={this.state.player4} placeholder="Player" />
 				<Button title="SAVE" onPress={this.onContinueHandler} />
 			</View>
 		);
