@@ -12,18 +12,18 @@ export default class NewTournament extends React.Component {
 	}
 	onContinueHandler = () => {
 		console.log("tournament saved");
-		let tournament = [{
+		let tournament = {
 			name: this.state.name,
 			player1: this.state.player1,
 			player2: this.state.player2,
 			player3: this.state.player3,
 			player4: this.state.player4,
-		}];
-		// console.log(tournament);
-		AsyncStorage.setItem('@tournament', JSON.stringify(tournament))
-			.then(tournament => {
-				console.log("NewTournament", tournament);
-			});
+		};
+		//console.log(tournament);
+		AsyncStorage.setItem('@tournament', JSON.stringify(tournament));
+			// .then(tournament => {
+			// 	console.log("NewTournament", tournament);
+			// });
 		this.props.navigation.goBack();
 	}
 	static navigationOptions = {

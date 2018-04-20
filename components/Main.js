@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Image, AsyncStorage} from 'react-native';
-import {StackNavigator} from 'react-navigation';
+import { StyleSheet, Text, View, Button, ScrollView, FlatList, TouchableOpacity, Image, AsyncStorage } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
 import NewTournament from './NewTournament';
+import Tournament from './Tournament';
 
 class Main extends React.Component {
 	state = {
@@ -15,31 +16,49 @@ class Main extends React.Component {
 			player4: "",
 		},
 	}
-	componentDidMount () {
-		AsyncStorage.getItem('@tournament')
-			.then(tournament => {
-				console.log("AsyncStorage inside Main", JSON.parse(tournament));
-				this.setState({tournament: JSON.parse(tournament)});
-			});
-	}
+	// componentWillMount () {
+	// 	this.getTournamentsHandler();
+	// 	return true;
+	// } 
+	getTournamentsHandler = async () => {
+		try {
+			let tournament = await AsyncStorage.getItem('@tournament');
+			if (tournament) {
+				await this.setState({ tournament: JSON.parse(tournament) });
+				await this.state.tournamentArray.push(this.state.tournament);
+			}
+			//alert(tournament);
+		}
+		catch (error) {
+			alert(error);
+		}
+	};
 	newTournamentHandler = () => {
-		this.props.navigation.navigate('NewTournament')
+		this.props.navigation.navigate('NewTournament');
+	}
+	tournamentViewHandler = () => {
+		this.props.navigation.navigate('Tournament', {tournament: this.state.tournament});
 	}
 	render() {
-		let tournament = "tournament";
-		if (this.state.tournament) {
-			tournament = (
+		this.getTournamentsHandler();
+		let tournaments = (
+			<TouchableOpacity onPress={this.tournamentViewHandler} >
 				<Text>{this.state.tournament.name}</Text>
-			);
-		}
+			</TouchableOpacity>
+		);
+		// this.state.tournamentArray.push(this.state.tournament);
 		return (
 			<View style={styles.container}>
-			<ScrollView style={styles.content}>
-				{tournament}
-			</ScrollView>
-			<TouchableOpacity style={styles.addButton} onPress={this.newTournamentHandler}>
-				<Text style={styles.addButtonText}>+</Text>
-			</TouchableOpacity>
+				{/* <FlatList
+					data={this.state.tournamentArray}
+					renderItem={({ item }) => <Text>{item.name}</Text>}
+				/> */}
+				<ScrollView>
+					{tournaments}
+				</ScrollView>
+				<TouchableOpacity style={styles.addButton} onPress={this.newTournamentHandler}>
+					<Text style={styles.addButtonText}>+</Text>
+				</TouchableOpacity>
 			</View>
 		);
 	}
@@ -47,8 +66,9 @@ class Main extends React.Component {
 
 export default RootStack = StackNavigator(
 	{
-		Home: {screen: Main},
-		NewTournament: {screen: NewTournament},
+		Home: { screen: Main },
+		NewTournament: { screen: NewTournament },
+		Tournament: { screen: Tournament },
 	},
 	{
 		initialRouteName: 'Home',
@@ -68,10 +88,6 @@ export default RootStack = StackNavigator(
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-	},
-	content: {
-		flex: 1,
-		marginBottom: 100
 	},
 	addButton: {
 		position: 'absolute',
