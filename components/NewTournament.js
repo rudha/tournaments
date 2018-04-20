@@ -11,7 +11,6 @@ export default class NewTournament extends React.Component {
 		player4: "",
 	}
 	onContinueHandler = () => {
-		console.log("tournament saved");
 		let tournament = {
 			name: this.state.name,
 			player1: this.state.player1,
@@ -19,11 +18,7 @@ export default class NewTournament extends React.Component {
 			player3: this.state.player3,
 			player4: this.state.player4,
 		};
-		//console.log(tournament);
 		AsyncStorage.setItem('@tournament', JSON.stringify(tournament));
-			// .then(tournament => {
-			// 	console.log("NewTournament", tournament);
-			// });
 		this.props.navigation.goBack();
 	}
 	static navigationOptions = {

@@ -7,7 +7,6 @@ import Tournament from './Tournament';
 
 class Main extends React.Component {
 	state = {
-		tournamentArray: [],
 		tournament: {
 			name: "",
 			player1: "",
@@ -16,18 +15,12 @@ class Main extends React.Component {
 			player4: "",
 		},
 	}
-	// componentWillMount () {
-	// 	this.getTournamentsHandler();
-	// 	return true;
-	// } 
 	getTournamentsHandler = async () => {
 		try {
 			let tournament = await AsyncStorage.getItem('@tournament');
 			if (tournament) {
 				await this.setState({ tournament: JSON.parse(tournament) });
-				await this.state.tournamentArray.push(this.state.tournament);
 			}
-			//alert(tournament);
 		}
 		catch (error) {
 			alert(error);
@@ -46,7 +39,6 @@ class Main extends React.Component {
 				<Text>{this.state.tournament.name}</Text>
 			</TouchableOpacity>
 		);
-		// this.state.tournamentArray.push(this.state.tournament);
 		return (
 			<View style={styles.container}>
 				{/* <FlatList
