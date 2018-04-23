@@ -10,6 +10,7 @@ export default class NewTournament extends React.Component {
 		player3: "",
 		player4: "",
 	}
+
 	onContinueHandler = () => {
 		let tournament = {
 			name: this.state.name,
@@ -21,12 +22,14 @@ export default class NewTournament extends React.Component {
 		AsyncStorage.setItem('@tournament', JSON.stringify(tournament));
 		this.props.navigation.goBack();
 	}
+
 	static navigationOptions = {
 		title: 'New Tournament',
 		headerTitleStyle: {
 			fontWeight: 'normal',
 		},
 	};
+	
 	render() {
 		return (
 			<View style={styles.container}>

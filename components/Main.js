@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, ScrollView, FlatList, TouchableOpacity, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, AsyncStorage, StatusBar } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import NewTournament from './NewTournament';
@@ -14,7 +14,7 @@ class Main extends React.Component {
 			player3: "",
 			player4: "",
 		},
-	}
+	};
 	getTournamentsHandler = async () => {
 		try {
 			let tournament = await AsyncStorage.getItem('@tournament');
@@ -28,10 +28,10 @@ class Main extends React.Component {
 	};
 	newTournamentHandler = () => {
 		this.props.navigation.navigate('NewTournament');
-	}
+	};
 	tournamentViewHandler = () => {
-		this.props.navigation.navigate('Tournament', {tournament: this.state.tournament});
-	}
+		this.props.navigation.navigate('Tournament', { tournament: this.state.tournament });
+	};
 	render() {
 		this.getTournamentsHandler();
 		let tournaments = (
@@ -41,9 +41,10 @@ class Main extends React.Component {
 		);
 		return (
 			<View style={styles.container}>
-				{/* <FlatList
-					data={this.state.tournamentArray}
-					renderItem={({ item }) => <Text>{item.name}</Text>}
+				{/* <StatusBar	
+					translucent
+					backgroundColor="transparent"
+     				barStyle="light-content"
 				/> */}
 				<ScrollView>
 					{tournaments}
