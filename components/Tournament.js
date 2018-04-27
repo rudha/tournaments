@@ -1,5 +1,12 @@
 import React from 'react';
-import {Text, View, StyleSheet, Button, ViewPagerAndroid, Switch} from 'react-native';
+import {
+	Text,
+	View,
+	StyleSheet,
+	Button,
+	ViewPagerAndroid,
+	Switch
+} from 'react-native';
 
 export default class Tournament extends React.Component {
 	state = {
@@ -18,21 +25,20 @@ export default class Tournament extends React.Component {
 		},
 	};
 
-	bracketDistributionHandler = async (winner, loser, match) => {
+	bracketDistributionHandler = (winner, loser, match) => {
 		if (match === 1) {
-			await this.setState({winner1: winner});
-			await this.setState({loser1: loser});
-			// alert(this.state.winner1 + ' wins 1');
+			this.setState({winner1: winner});
+			this.setState({loser1: loser});
 		} else {
-			await this.setState({winner2: winner});
-			await this.setState({loser2: loser});
-			// alert(this.state.winner2 + ' wins 2');			
+			this.setState({winner2: winner});
+			this.setState({loser2: loser});
 		}
 	}
 
 	nextPhaseHandler (phase) {
 		if (phase === 2) {
 			this.setState({phase2: !this.state.phase2});
+			this.setState({phase3: false});
 		}
 		if (phase === 3) {
 			this.setState({phase3: !this.state.phase3});
@@ -44,34 +50,42 @@ export default class Tournament extends React.Component {
 		let phase3 = null;
 		if (this.state.phase2) {
 			phase2 = (
-				<View style={styles.matchRow}>
-					<Text style={{fontWeight: 'bold'}}>Winner Bracket</Text>
-					<Button title="WINNER"
-						onPress={() => this.bracketDistributionHandler(
-							params.tournament.player1,
-							params.tournament.player2,
-							1,
-						)}
-					/>
-					<Text>{this.state.winner1} vs {this.state.winner2}</Text>
-					<Button title="WINNER"
-						onPress={() => this.bracketDistributionHandler(
-							params.tournament.player1,
-							params.tournament.player2,
-							1,
-						)}
-					/>
-					<View>
-						<Text style={{fontWeight: 'bold'}}>Loser Bracket</Text>
-						<Text>{this.state.loser1} vs {this.state.loser2}</Text>
-						<Switch
-							value={this.state.phase3}
-							onValueChange={() => this.nextPhaseHandler(3)}
+				<View>
+					<View style={styles.matchRow}>
+						<Text style={{fontWeight: 'bold'}}>Winner Bracket</Text>
+					</View>
+					<View style={styles.matchRow}>
+						<Button title="WINNER"
+							onPress={() => this.bracketDistributionHandler(
+								params.tournament.player1,
+								params.tournament.player2,
+								1,
+							)}
 						/>
-						<Text>Next Phase</Text>
+						<Text>{this.state.winner1} vs {this.state.winner2}</Text>
+						<Button title="WINNER"
+							onPress={() => this.bracketDistributionHandler(
+								params.tournament.player1,
+								params.tournament.player2,
+								1,
+							)}
+						/>
+					</View>
+					<View style={styles.matchRow}>
+						<Text style={{fontWeight: 'bold'}}>Loser Bracket</Text>
+					</View>
+					<View style={styles.matchRow}>
+						<Text>{this.state.loser1} vs {this.state.loser2}</Text>
+					</View>
+					<View style={styles.matchRow}>
+					<Switch
+						value={this.state.phase3}
+						onValueChange={() => this.nextPhaseHandler(3)}
+					/>
+					<Text>Next Phase</Text>
 					</View>
 				</View>
-				
+
 			);
 		}
 		if (this.state.phase3) {
@@ -135,8 +149,7 @@ export default class Tournament extends React.Component {
 						value={this.state.phase2}
 						onValueChange={() => this.nextPhaseHandler(2)}
 					/>
-					<Text>Next Phase</Text>					
-					{/* <Button title="NEXT PHASE" onPress={() => this.setState({phase2: true})} /> */}
+					<Text>Next Phase</Text>
 					{phase2}
 					{phase3}
 				</View>
@@ -148,6 +161,7 @@ export default class Tournament extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		flexDirection: 'row',
 	},
 	pageStyle: {
 		alignItems: 'center',

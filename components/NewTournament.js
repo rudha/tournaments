@@ -1,5 +1,12 @@
 import React from 'react';
-import {Text, View, TextInput, StyleSheet, Button, AsyncStorage} from 'react-native';
+import {
+	Text,
+	View,
+	TextInput,
+	StyleSheet,
+	Button,
+	AsyncStorage
+} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 
 export default class NewTournament extends React.Component {
@@ -29,7 +36,7 @@ export default class NewTournament extends React.Component {
 			fontWeight: 'normal',
 		},
 	};
-	
+
 	render() {
 		return (
 			<View style={styles.container}>
@@ -38,10 +45,25 @@ export default class NewTournament extends React.Component {
 					value={this.state.name}
 					placeholder="Tournament Name"
 				/>
-				<TextInput onChangeText={(player1) => this.setState({player1})} value={this.state.player1} placeholder="Player" />
-				<TextInput onChangeText={(player2) => this.setState({player2})} value={this.state.player2} placeholder="Player" />
-				<TextInput onChangeText={(player3) => this.setState({player3})} value={this.state.player3} placeholder="Player" />
-				<TextInput onChangeText={(player4) => this.setState({player4})} value={this.state.player4} placeholder="Player" />
+				<TextInput
+					onChangeText={(player1) => this.setState({player1})}
+					value={this.state.player1}
+					placeholder="Player"
+				/>
+				<TextInput
+					onChangeText={(player2) => this.setState({player2})}
+					value={this.state.player2}
+					placeholder="Player"
+				/>
+				<TextInput
+					onChangeText={(player3) => this.setState({player3})}
+					value={this.state.player3}
+					placeholder="Player" />
+				<TextInput
+					onChangeText={(player4) => this.setState({player4})}
+					value={this.state.player4}
+					placeholder="Player"
+				/>
 				<Button title="SAVE" onPress={this.onContinueHandler} />
 			</View>
 		);
