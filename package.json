@@ -6,7 +6,13 @@
     "babel-preset-react-native-stage-0": "^1.0.1",
     "jest": "^22.4.3",
     "jest-react-native": "^18.0.0",
-    "react-test-renderer": "16.3.0-alpha.1"
+    "react-test-renderer": "16.3.0-alpha.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jest": "^21.15.1",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.8.0"
   },
   "scripts": {
     "start": "react-native start",
@@ -18,6 +24,7 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "babel-eslint": "^8.2.3",
     "react": "16.3.0-alpha.1",
     "react-native": "0.54.0",
     "react-navigation": "^1.5.11"
